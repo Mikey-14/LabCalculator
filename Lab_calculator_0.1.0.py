@@ -56,7 +56,8 @@ def func2_show_result():
     result2 = x.result_number() * 0.001 * x.unit1 *x.unit2 /x.unit4
     solidmass_result.config(text=f'{result2}',bd=1,relief='solid')
 def func3_show_result():
-    pldwhole=
+    pld_total = packvol_number.get()
+    
 
 title = tk.Label(main, text = '实验室综合计算器')
 title.grid(row=0,column=0,columnspan=4)
@@ -218,7 +219,7 @@ packvol_title = tk.Label(main,text = '质粒总用量：')
 default_vol = tk.StringVar()
 default_vol.set('60')
 packvol_number = tk.Entry(main,width = 8,textvariable=default_vol)
-packvol_unit = tk.Label(main,text='ng')
+packvol_unit = tk.Label(main,text='μg')
 packvol_title.grid(row=13,column=0)
 packvol_number.grid(row=13,column=1)
 packvol_unit.grid(row=13,column=2)
