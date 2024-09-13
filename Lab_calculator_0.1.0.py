@@ -10,6 +10,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from calculator import concentration_cal
 from calculator import solid_cal
+from calculator import plasmid_cal
 main = tk.Tk()
 def on_closing():
     main.quit()
@@ -57,6 +58,16 @@ def func2_show_result():
     solidmass_result.config(text=f'{result2}',bd=1,relief='solid')
 def func3_show_result():
     pld_total = packvol_number.get()
+    x = plasmid_cal(pld1_ratio.get(),pld2_ratio.get(),pld3_ratio.get())
+    weight = x.total_weight(pld_total)
+    x.plasmid_con(pldcon1_ratio.get(),pldcon2_ratio.get(),pldcon3_ratio.get())
+    p1_vol = round(weight * x.p1_ratio / x.p1_con, 2)
+    p2_vol = round(weight * x.p2_ratio / x.p2_con, 2)
+    p3_vol = round(weight * x.p3_ratio / x.p3_con, 2)
+    pldvol1_ratio.config(text=f'{p1_vol}',bd=1,relief='solid')
+    pldvol2_ratio.config(text=f'{p2_vol}',bd=1,relief='solid')
+    pldvol3_ratio.config(text=f'{p3_vol}',bd=1,relief='solid')
+    
     
 
 title = tk.Label(main, text = '实验室综合计算器')
@@ -214,7 +225,7 @@ separator2.grid(row=11,column=0,columnspan=10,sticky="ew",pady=10)
 #功能3
 func3_title = tk.Label(main,text='病毒包装体系计算')
 func3_title.grid(row = 12,column=0)
-#质粒用量
+#质粒总用量
 packvol_title = tk.Label(main,text = '质粒总用量：')
 default_vol = tk.StringVar()
 default_vol.set('60')
@@ -256,11 +267,11 @@ pldcon3_ratio.grid(row = 15,column = 6)
 #各质粒所用体积
 pldvol_title = tk.Label(main,text='质粒体积：')
 pldvol1_title = tk.Label(main,text='Helper:')
-pldvol1_ratio = tk.Label(main,text='')
+pldvol1_ratio = tk.Label(main,text='',width=8)
 pldvol2_title = tk.Label(main,text='Transfer:')
-pldvol2_ratio = tk.Label(main,text='')
+pldvol2_ratio = tk.Label(main,text='',width=8)
 pldvol3_title = tk.Label(main,text='Envelop G:')
-pldvol3_ratio = tk.Label(main,text='')
+pldvol3_ratio = tk.Label(main,text='',width=8)
 pldvol_title.grid(row = 16, column = 0)
 pldvol1_title.grid(row = 16,column = 1)
 pldvol1_ratio.grid(row = 16, column = 2)
@@ -272,7 +283,7 @@ pldvol3_ratio.grid(row = 16,column = 6)
 button3 = tk.Button(main,text = '确定',
                     width = 5,
                     bg = 'orange',
-                    command = func2_show_result)
+                    command = func3_show_result)
 button3.grid(row = 14, column = 8, rowspan = 3)
 
 main.protocol("WM_DELETE_WINDOW", on_closing)

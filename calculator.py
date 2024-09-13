@@ -97,6 +97,27 @@ class solid_cal:
     def result_number(self):
         result = self.savvol * self.workcon * self.mwsolid
         return result
+    
+class plasmid_cal:
+    def __init__(self,x,y,z):
+        self.p1_num = float(x) if x else 0
+        self.p2_num = float(y) if y else 0
+        self.p3_num = float(z) if z else 0
+        total_num = self.p1_num +self.p2_num+self.p3_num
+        self.p1_ratio = self.p1_num / total_num
+        self.p2_ratio = self.p2_num / total_num
+        self.p3_ratio = self.p3_num / total_num
+        
+    def total_weight(self,x):
+        total_w = float(x) if x else 0
+        return total_w* 1000
+    
+    def plasmid_con(self,x,y,z):
+        self.p1_con = float(x) if x else 0
+        self.p2_con = float(y) if y else 0
+        self.p3_con = float(z) if z else 0
+    
+
 ''' 
     def get_initcon_unit(self):
         if initvol_unit == 'mL':
