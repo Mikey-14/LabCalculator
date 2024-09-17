@@ -41,7 +41,8 @@
         <input type="text" id="transfer_ratio" name="transfer_ratio" value="{{ transfer_ratio_result }}">
         <label for="envelop_g_ratio">Envelop G:</label>
         <input type="text" id="envelop_g_ratio" name="envelop_g_ratio" value="{{ envelop_ratio_result }}">
-    </div>
+    <p id="plasmid4-ratio"></p>
+        </div>
 
     <!-- 质粒浓度 -->
     <h3>质粒浓度:</h3>
@@ -52,6 +53,7 @@
         <input type="text" id="transfer_con" name="transfer_con"value="{{ transfer_con_result }}">
         <label for="envelop_g_concentration">Envelop G:</label>
         <input type="text" id="envelop_con" name="envelop_con"value="{{ envelop_con_result }}">
+        <p id="plasmid4-con"></p>
     </div>
 
     <!-- 质粒体积 -->
@@ -63,15 +65,64 @@
         <input type="text" id="transfer_volume" name="transfer_volume"value="{{ transfer_vol_result }}">
         <label for="envelop_g_volume">Envelop G:</label>
         <input type="text" id="envelop_g_volume" name="envelop_g_volume"value="{{ envelop_vol_result }}">
+        <p id="plasmid4-vol"></p>
     </div>
+
 
     <!-- Buttons -->
     <div class="button">
-        <button type="button">添加质粒4</button>
+        <button type="button" onclick="add_plasmid_Input()">添加质粒4</button>
+        
+    </div>
+        
+
+    
+     <script>
+        function add_plasmid_Input() {
+            // 创建一个新的文本框 (label)
+            var plasmid_ratio_label = document.createElement("label");
+            plasmid_ratio_label.textContent = "plasmid4:";
+            var plasmid_con_label = document.createElement("label");
+            plasmid_con_label.textContent = "plasmid4:";
+            var plasmid_vol_label = document.createElement("label");
+            plasmid_vol_label.textContent = "plasmid4:";
+            
+            // 创建一个新的输入框 (input)
+            var plasmid_ratio = document.createElement("input");
+            plasmid_ratio.type = "text";
+            plasmid_ratio.name = "plasmid_ratio";
+            plasmid_ratio.value="{{ plasmid_ratio_result }}";
+            var plasmid_con = document.createElement("input");
+            plasmid_con.type = "text";
+            plasmid_con.name = "plasmid_con";
+            plasmid_con.value="{{ plasmid_con_result }}";
+            var plasmid_vol = document.createElement("input");
+            plasmid_vol.type = "text";
+            plasmid_vol.name = "plasmid_vol";
+            plasmid_vol.value="{{ plasmid_vol_result }}";
+
+            // 将新创建的元素插入到指定容器中
+            var container = document.getElementById("plasmid4-ratio");
+            container.appendChild(plasmid_ratio_label);  // 插入label
+            container.appendChild(plasmid_ratio);  // 插入input
+            var container = document.getElementById("plasmid4-con");
+            container.appendChild(plasmid_con_label);  // 插入label
+            container.appendChild(plasmid_con);  // 插入input
+            var container = document.getElementById("plasmid4-vol");
+            container.appendChild(plasmid_vol_label);  // 插入label
+            container.appendChild(plasmid_vol);  // 插入input
+
+            // 为了视觉效果，可以加个换行
+            container.appendChild(document.createElement("br"));
+        }
+    </script>
+    <div class="button">
         <button type="submit">确定</button>
+        <button type="reset">重置</button>
     </div>
     </form>
-</div>
+ </div>
+    
 
 </body>
 </html>

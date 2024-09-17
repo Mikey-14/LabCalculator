@@ -98,7 +98,7 @@ def plasmid():
         p1_num = request.form.get('helper_ratio', '6')
         p2_num = request.form.get('transfer_ratio', '12')
         p3_num = request.form.get('envelop_g_ratio', '5')
-        p4_num = request.form.get('p4_num', '0')
+        p4_num = request.form.get('plasmid_ratio', '0')
 
         calc = plasmid_cal(p1_num, p2_num, p3_num, p4_num)
         total_weight1 = calc.total_weight(total_weight)
@@ -106,7 +106,7 @@ def plasmid():
         p1_con = request.form.get('helper_con', '0')
         p2_con = request.form.get('transfer_con', '0')
         p3_con = request.form.get('envelop_con', '0')
-        p4_con = request.form.get('p4_con', '1')
+        p4_con = request.form.get('plasmid_con', '1')
 
         calc.plasmid_con(p1_con, p2_con, p3_con, p4_con)
 
@@ -116,9 +116,10 @@ def plasmid():
         p4_vol = round(total_weight1 * calc.p4_ratio / calc.p4_con, 2)
 
         return render_template('plasmid.html', total_result=total_weight,
-                               helper_ratio_result=p1_num,transfer_ratio_result=p2_num,envelop_ratio_result=p3_num,
-                               helper_con_result=p1_con,transfer_con_result=p2_con,envelop_con_result=p3_con,
-                               helper_vol_result=p1_vol, transfer_vol_result=p2_vol, envelop_vol_result=p3_vol)
+                               helper_ratio_result=p1_num,transfer_ratio_result=p2_num,envelop_ratio_result=p3_num,plasmid_ratio_result=p4_num,
+                               helper_con_result=p1_con,transfer_con_result=p2_con,envelop_con_result=p3_con,plasmid_con_result=p4_con,
+                               helper_vol_result=p1_vol, transfer_vol_result=p2_vol, envelop_vol_result=p3_vol,plasmid_vol_result=p4_vol
+        )
     
     return render_template('plasmid.html')
 
