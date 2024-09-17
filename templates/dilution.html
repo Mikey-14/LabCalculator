@@ -72,34 +72,36 @@
         初始浓度: <input type="text" id="initcon" value="{{ initcon_result }}"  name="initcon">
 	   <!--初始浓度单位选择-->
 	   单位:
-	   <select name="initcon_unit">
-            <option value="mol/L">mol/L</option>
-            <option value="mmol/L">mmol/L</option>
-            <option value="ng/μL">ng/μL</option>
-            <option value="g/L">g/L</option>
+	   <select name="initcon_unit" id="unit-select">
+           <option value="mol/L" {% if initcon_selected_unit == "mol/L"%}selected{%endif%} >mol/L</option>
+            <option value="mmol/L"{% if initcon_selected_unit == 'mmol/L'%}selected{%endif%} >mmol/L</option>
+            <option value="ng/μL"{% if initcon_selected_unit == 'ng/μL'%}selected{%endif%} >ng/μL</option>
+            <option value="g/L"{% if initcon_selected_unit == 'g/L'%}selected{%endif%} >g/L</option>
         </select>
         <br>
         初始体积: <input type="text" value="{{ initvol_result }}" name="initvol">
         单位:
         <select name="initvol_unit">
-            <option value="mL">mL</option>
-            <option value="μL">μL</option>
+            <option value="mL"{% if initvol_selected_unit == "mL"%}selected{%endif%}>mL</option>
+            <option value="L"{% if initvol_selected_unit == "L"%}selected{%endif%}>L</option>
+            <option value="μL"{% if initvol_selected_unit == "μL"%}selected{%endif%}>μL</option>
         </select>
         <br>
         目标浓度: <input type="text" value="{{ finalcon_result }}" id="finalcon" name="finalcon">
         单位:
         <select name="finalcon_unit">
-            <option value="mol/L">mol/L</option>
-            <option value="mmol/L">mmol/L</option>
-            <option value="ng/μL">ng/μL</option>
-            <option value="g/L">g/L</option>
+            <option value="mol/L"{% if finalcon_selected_unit == "mol/L"%}selected{%endif%}>mol/L</option>
+            <option value="mmol/L"{% if finalcon_selected_unit == 'mmol/L'%}selected{%endif%}>mmol/L</option>
+            <option value="ng/μL"{% if finalcon_selected_unit == 'ng/μL'%}selected{%endif%}>ng/μL</option>
+            <option value="g/L"{% if finalcon_selected_unit == 'g/L'%}selected{%endif%}>g/L</option>
         </select>
         <br>
         目标体积: <input type="text" value="{{ finalvol_result }}" id="finalvol" name="finalvol">
         单位:
         <select name="finalvol_unit">
-            <option value="mL">mL</option>
-            <option value="μL">μL</option>
+            <option value="mL"{% if finalvol_selected_unit == "mL"%}selected{%endif%}>mL</option>
+            <option value='L'{% if finalvol_selected_unit == "L"%}selected{%endif%}>L</option>
+            <option value="μL"{% if finalvol_selected_unit == "μL"%}selected{%endif%}>μL</option>
         </select>
         <br>
         临时输出: <input type="text" value="{{ temp }}" readonly>

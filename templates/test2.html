@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>病毒包装体系计算</title>
+    <style>
+        .container {
+            margin: 20px;
+        }
+        label {
+            display: inline-block;
+            width: 150px;
+            margin-bottom: 10px;
+        }
+        input[type="text"], input[type="number"] {
+            width: 50px;
+        }
+        .button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>病毒包装体系计算</h1>
+
+    <!-- 总用量 -->
+    <div>
+        <label for="total_amount">质粒总用量:</label>
+        <input type="number" id="total_amount" name="total_amount" value="60"> µg
+    </div>
+
+    <!-- 质粒比例 -->
+    <h3>质粒比例:</h3>
+    <div id="plasmid_ratios">
+        <!-- Existing fields -->
+        <div>
+            <label for="helper_ratio">Helper:</label>
+            <input type="number" id="helper_ratio" name="helper_ratio" value="6">
+            <label for="transfer_ratio">Transfer:</label>
+            <input type="number" id="transfer_ratio" name="transfer_ratio" value="12">
+            <label for="envelop_g_ratio">Envelop G:</label>
+            <input type="number" id="envelop_g_ratio" name="envelop_g_ratio" value="5">
+        </div>
+    </div>
+
+    <!-- 质粒浓度 -->
+    <h3>质粒浓度:</h3>
+    <div id="plasmid_concentrations">
+        <!-- Existing fields -->
+        <div>
+            <label for="helper_concentration">Helper:</label>
+            <input type="text" id="helper_concentration" name="helper_concentration">
+            <label for="transfer_concentration">Transfer:</label>
+            <input type="text" id="transfer_concentration" name="transfer_concentration">
+            <label for="envelop_g_concentration">Envelop G:</label>
+            <input type="text" id="envelop_g_concentration" name="envelop_g_concentration">
+        </div>
+    </div>
+
+    <!-- 质粒体积 -->
+    <h3>质粒体积:</h3>
+    <div id="plasmid_volumes">
+        <!-- Existing fields -->
+        <div>
+            <label for="helper_volume">Helper:</label>
+            <input type="text" id="helper_volume" name="helper_volume">
+            <label for="transfer_volume">Transfer:</label>
+            <input type="text" id="transfer_volume" name="transfer_volume">
+            <label for="envelop_g_volume">Envelop G:</label>
+            <input type="text" id="envelop_g_volume" name="envelop_g_volume">
+        </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="button">
+        <button type="button" onclick="addPlasmid()">添加质粒4</button>
+        <button type="submit">确定</button>
+    </div>
+</div>
+
+<script>
+    function addPlasmid() {
+        var sections = ["plasmid_ratios", "plasmid_concentrations", "plasmid_volumes"];
+        var labels = ["质粒4比例:", "质粒4浓度:", "质粒4体积:"];
+        var types = ["number", "text", "text"];
+
+        sections.forEach(function(section, index) {
+            var container = document.getElementById(section);
+            var div = document.createElement("div");
+            var label = document.createElement("label");
+            label.innerHTML = labels[index];
+            var input = document.createElement("input");
+            input.type = types[index];
+            input.name = "plasmid4_" + section;
+            div.appendChild(label);
+            div.appendChild(input);
+            container.appendChild(div);
+        });
+    }
+</script>
+
+</body>
+</html>
