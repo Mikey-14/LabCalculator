@@ -99,23 +99,26 @@ class solid_cal:
         return result
     
 class plasmid_cal:
-    def __init__(self,x,y,z):
+    def __init__(self,x,y,z,p):
         self.p1_num = float(x) if x else 0
         self.p2_num = float(y) if y else 0
         self.p3_num = float(z) if z else 0
-        total_num = self.p1_num +self.p2_num+self.p3_num
+        self.p4_num = float(p) if p else 0
+        total_num = self.p1_num +self.p2_num+self.p3_num +self.p4_num
         self.p1_ratio = self.p1_num / total_num
         self.p2_ratio = self.p2_num / total_num
         self.p3_ratio = self.p3_num / total_num
+        self.p4_ratio = self.p4_num / total_num
         
     def total_weight(self,x):
         total_w = float(x) if x else 0
         return total_w* 1000
     
-    def plasmid_con(self,x,y,z):
+    def plasmid_con(self,x,y,z,p):
         self.p1_con = float(x) if x else 0
         self.p2_con = float(y) if y else 0
         self.p3_con = float(z) if z else 0
+        self.p4_con = float(p) if p else 1
     
 
 ''' 

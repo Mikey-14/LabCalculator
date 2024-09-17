@@ -58,16 +58,26 @@ def func2_show_result():
     solidmass_result.config(text=f'{result2}',bd=1,relief='solid')
 def func3_show_result():
     pld_total = packvol_number.get()
-    x = plasmid_cal(pld1_ratio.get(),pld2_ratio.get(),pld3_ratio.get())
+    x = plasmid_cal(pld1_ratio.get(),pld2_ratio.get(),pld3_ratio.get(),pld4_ratio.get())
     weight = x.total_weight(pld_total)
-    x.plasmid_con(pldcon1_ratio.get(),pldcon2_ratio.get(),pldcon3_ratio.get())
+    x.plasmid_con(pldcon1_ratio.get(),pldcon2_ratio.get(),pldcon3_ratio.get(),pldcon4_ratio.get())
     p1_vol = round(weight * x.p1_ratio / x.p1_con, 2)
     p2_vol = round(weight * x.p2_ratio / x.p2_con, 2)
     p3_vol = round(weight * x.p3_ratio / x.p3_con, 2)
+    p4_vol = round(weight * x.p4_ratio / x.p4_con, 2)
     pldvol1_ratio.config(text=f'{p1_vol}',bd=1,relief='solid')
     pldvol2_ratio.config(text=f'{p2_vol}',bd=1,relief='solid')
     pldvol3_ratio.config(text=f'{p3_vol}',bd=1,relief='solid')
-    
+    pldvol4_ratio.config(text=f'{p4_vol}',bd=1,relief='solid')
+def func3_custom():
+    button3.grid(row = 14, column = 9, rowspan = 3)
+    custom_button.destroy()
+    pld4_title.grid(row=14,column=7)
+    pld4_ratio.grid(row=14,column=8)
+    pldcon4_title.grid(row=15,column=7)
+    pldcon4_ratio.grid(row=15,column=8)
+    pldvol4_title.grid(row=16,column=7)
+    pldvol4_ratio.grid(row=16,column=8)
     
 
 title = tk.Label(main, text = '实验室综合计算器')
@@ -285,6 +295,16 @@ pldvol2_title.grid(row = 16,column = 3)
 pldvol2_ratio.grid(row = 16, column = 4)
 pldvol3_title.grid(row = 16, column = 5)
 pldvol3_ratio.grid(row = 16,column = 6)
+#添加自定义质粒按钮
+custom_button = tk.Button(main,text='添加质粒4',command=func3_custom)
+custom_button.grid(row = 13,column = 8)
+pld4_title = tk.Label(main,text='plasmid:')
+pld4_ratio = tk.Entry(main,width = 5)
+pldcon4_title = tk.Label(main,text='plasmid:')
+pldcon4_ratio = tk.Entry(main,width = 8)
+pldvol4_title = tk.Label(main,text='plasmid:')
+pldvol4_ratio = tk.Label(main,text='',width=8)
+
 #计算按钮3
 button3 = tk.Button(main,text = '确定',
                     width = 5,

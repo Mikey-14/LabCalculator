@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>稀释计算</title>
+</head>
+<style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 50px;
+            color: #6200ea;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"], select {
+            
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            background-color: #6200ea;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #3700b3;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        select {
+            background-color: #f8f8f8;
+        }
+    </style>
+<body>
+    <h2>稀释计算</h2>
+    <form method="POST">
+        初始浓度: <input type="text" id="initcon" value="{{ initcon_result }}"  name="initcon">
+	   <!--初始浓度单位选择-->
+	   单位:
+	   <select name="initcon_unit">
+            <option value="mol/L">mol/L</option>
+            <option value="mmol/L">mmol/L</option>
+            <option value="ng/μL">ng/μL</option>
+            <option value="g/L">g/L</option>
+        </select>
+        <br>
+        初始体积: <input type="text" value="{{ initvol_result }}" name="initvol">
+        单位:
+        <select name="initvol_unit">
+            <option value="mL">mL</option>
+            <option value="μL">μL</option>
+        </select>
+        <br>
+        目标浓度: <input type="text" value="{{ finalcon_result }}" id="finalcon" name="finalcon">
+        单位:
+        <select name="finalcon_unit">
+            <option value="mol/L">mol/L</option>
+            <option value="mmol/L">mmol/L</option>
+            <option value="ng/μL">ng/μL</option>
+            <option value="g/L">g/L</option>
+        </select>
+        <br>
+        目标体积: <input type="text" value="{{ finalvol_result }}" id="finalvol" name="finalvol">
+        单位:
+        <select name="finalvol_unit">
+            <option value="mL">mL</option>
+            <option value="μL">μL</option>
+        </select>
+        <br>
+        临时输出: <input type="text" value="{{ temp }}" readonly>
+        <button type="submit">计算</button>
+        <p id="resultText"></p>
+    </form>
+</body>
+</html>
