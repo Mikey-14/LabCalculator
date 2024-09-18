@@ -4,13 +4,77 @@
     <meta charset="UTF-8">
     <title>固体溶解计算</title>
 </head>
+<style>
+    h1 {
+            text-align: center;
+            color: black;
+            margin-bottom: 30px;
+            padding: 15px;
+            border:2px solid rgb(3, 110, 183);
+            border-radius: 10px;
+            background-color: white;
+        
+        }
+
+    .container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align:justify;
+            width:300px;
+            margin:0 auto;
+            display:flex;
+            justify-content: center; /* 水平居中 */
+            align-items: center; /* 垂直居中 */
+            
+    }
+    input[type="text"]{
+        width:100px;}
+    #sovvol {
+        border:2px solid white
+    }
+    #solidmass{
+        border:2px solid white
+    }
+    </style>
+    
 <body>
     <h1>固体溶解计算</h1>
+    
+    <div class=container>
     <form method="POST">
-        摩尔质量: <input type="text" name="mwsolid"><br>
-        工作浓度: <input type="text" name="workcon"><br>
-        需要体积: <input type="text" name="savvol"><br>
-        <button type="submit">计算</button>
+        摩尔质量: <input type="text" name="mwsolid"value="{{ mwsolid_result }}"> g/M<br>
+        工作浓度: 
+        <input type="text" name="workcon"value="{{ workcon_result }}">
+        <select name="workcon_unit">
+            <option value="mol/L"{% if workcon_selected_unit == "mol/L"%}selected{%endif%}>mol/L</option>
+            <option value="mmol/L"{% if workcon_selected_unit == "mmol/L"%}selected{%endif%}>mmol/L</option>
+            <option value="μmol/L"{% if workcon_selected_unit == "μmol/L"%}selected{%endif%}>μmol/L</option>
+        </select>
+        <br>
+        工作体积: <input type="text" name="savvol"value="{{ savvol_result }}">
+        <select name="savvol_unit">
+            <option value="mL"{% if savvol_selected_unit == "mL"%}selected{%endif%}>mL</option>
+            <option value="μL"{% if savvol_selected_unit == "μL"%}selected{%endif%}>μL</option>
+        </select>
+        <br>
+        需要溶剂:<input type="text" id="sovvol" name="sovvol"value="{{ sovvol_result }}">
+        <select name="sovvol_unit">
+            <option value="mL"{% if sovvol_selected_unit == "mL"%}selected{%endif%}>mL</option>
+            <option value="μL"{% if sovvol_selected_unit == "μL"%}selected{%endif%}>μL</option>
+        </select>
+        <br>
+        需要固体:<input type="text" id="solidmass" name="solidmass"value="{{ solidmass_result }}">
+        <select name="solidmass_unit">
+            <option value="g"{% if solidmass_selected_unit == "g"%}selected{%endif%}>g</option>
+            <option value="mg"{% if solidmass_selected_unit == "mg"%}selected{%endif%}>mg</option>
+        </select>
+        <br>
+        <button type="submit" id=solve>计算</button>
+        <br>
     </form>
+    </div>
+    
 </body>
 </html>

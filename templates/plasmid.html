@@ -10,14 +10,37 @@
         }
         label {
             display: inline-block;
-            width: 100px;
+            width:  100px;
             margin-bottom: 5px;
+            text-align: center
         }
         input[type="text"], input[type="number"] {
             width: 70px;
         }
-        .button {
-            margin-top: 10px;
+        
+        button {
+            
+            margin-top: 20px;
+            padding: 5px 15px;  /* 按钮的内边距，使其更大 */
+            font-size: 18px;     /* 调整字体大小 */
+            background-color: orange;  /* 按钮背景颜色 */
+            color: Black;        /* 按钮文字颜色 */
+            border: 2px solid white;        /* 去除默认边框 */
+            border-radius: 5px; /* 边框圆角 */
+            cursor: pointer;     /* 鼠标悬停时显示手型 */
+            transition: background-color 0.3s ease, transform 0.2s ease; /* 添加平滑的过渡效果 */
+        }
+        #helper_volume{
+                border:2px solid white
+        }
+        #transfer_volume{
+                border:2px solid white
+        }
+        #envelop_g_volume{
+                border:2px solid white
+        }
+        #plasmid_volume{
+                border:2px solid white
         }
     </style>
 </head>
@@ -29,7 +52,7 @@
     <!-- 总用量 -->
     <div>
         <label for="total_amount">质粒总用量:</label>
-        <input type="number" id="total_amount" name="total_amount" value="{{ total_result }}"> µg
+        <input type="text" id="total_weight" name="total_weight" value="{{ total_result }}"> µg
     </div>
 
     <!-- 质粒比例 -->
@@ -41,19 +64,21 @@
         <input type="text" id="transfer_ratio" name="transfer_ratio" value="{{ transfer_ratio_result }}">
         <label for="envelop_g_ratio">Envelop G:</label>
         <input type="text" id="envelop_g_ratio" name="envelop_g_ratio" value="{{ envelop_ratio_result }}">
-    <p id="plasmid4-ratio"></p>
-        </div>
+        <label for="plasmid_ratio">Plasmid4<br>(没有可不填):</label>
+        <input type="text" id="plasmid_ratio" name="plasmid_ratio" value="{{ plasmid_ratio_result }}">
+    </div>
 
     <!-- 质粒浓度 -->
     <h3>质粒浓度:</h3>
     <div>
-        <label for="helper_concentration">Helper:</label>
+        <label for="helper_con">Helper:</label>
         <input type="text" id="helper_con" name="helper_con" value="{{ helper_con_result }}">
-        <label for="transfer_concentration">Transfer:</label>
+        <label for="transfer_con">Transfer:</label>
         <input type="text" id="transfer_con" name="transfer_con"value="{{ transfer_con_result }}">
-        <label for="envelop_g_concentration">Envelop G:</label>
+        <label for="envelop_con">Envelop G:</label>
         <input type="text" id="envelop_con" name="envelop_con"value="{{ envelop_con_result }}">
-        <p id="plasmid4-con"></p>
+        <label for="plasmid_con">Plasmid4:</label>
+        <input type="text" id="plasmid_con" name="plasmid_con"value="{{ plasmid_con_result }}">
     </div>
 
     <!-- 质粒体积 -->
@@ -65,16 +90,19 @@
         <input type="text" id="transfer_volume" name="transfer_volume"value="{{ transfer_vol_result }}">
         <label for="envelop_g_volume">Envelop G:</label>
         <input type="text" id="envelop_g_volume" name="envelop_g_volume"value="{{ envelop_vol_result }}">
-        <p id="plasmid4-vol"></p>
+        <label for="plasmid_volume">Plasmid4:</label>
+        <input type="text" id="plasmid_volume" name="plasmid_volume"value="{{ plasmid_vol_result }}">
     </div>
 
 
     <!-- Buttons -->
-    <div class="button">
+    <!--<div class="button">
         <button type="button" onclick="add_plasmid_Input()">添加质粒4</button>
         
+    </div>-->
+            <div class="button">
+        <button type="submit">确定</button>
     </div>
-        
 
     
      <script>
@@ -116,10 +144,7 @@
             container.appendChild(document.createElement("br"));
         }
     </script>
-    <div class="button">
-        <button type="submit">确定</button>
-        <button type="reset">重置</button>
-    </div>
+
     </form>
  </div>
     

@@ -14,13 +14,17 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
         }
 
         h1 {
             text-align: center;
-            color: #6200ea;
+            color: #ffffff;
             margin-bottom: 30px;
+            padding: 15px;
+            border:2px solid rgb(3, 110, 183);
+            border-radius: 10px;
+            background-color: #446fbd;
         }
 
         ul {
@@ -56,14 +60,29 @@
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             text-align: center;
-        }
+    }
+        
+        footer {
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            font-size: 14px;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+            }
     </style>
 <body>
+    <div class=container>
     <h1>选择计算类型</h1>
+    <br>
     <ul>
         <li><a href="/dilution">稀释计算</a></li>
         <li><a href="/solid">固体溶解计算</a></li>
         <li><a href="/plasmid">质粒用量计算</a></li>
     </ul>
+    </div>
+    
 </body>
 </html>
