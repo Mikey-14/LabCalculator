@@ -4,12 +4,17 @@ Created on Mon Sep 16 11:09:36 2024
 
 @author: mikey
 """
-
-from flask import Flask, render_template, request
+import random
+from datetime import datetime
+from flask import Flask, render_template, request, send_from_directory
 from calculator import concentration_cal, solid_cal, plasmid_cal
+import os
 
 app = Flask(__name__)
-
+current_time = datetime.now()
+format_time = current_time.strftime("%Y-%m-%d--%H:%M:%S")
+PDF_FOLDER = os.path.join(app.root_path, 'static/lab_protocols')
+ 
 # 主页面
 @app.route('/')
 def index():
@@ -33,9 +38,8 @@ def dilution():
         calc = concentration_cal(initcon, initvol, finalcon, finalvol)
         calc.unit(initcon_unit, initvol_unit, finalcon_unit, finalvol_unit)
 
-        if calc.finalcon * calc.final1 > calc.initcon * calc.init1:
-            warn_text = "Oopz！小的只负责稀释，不负责浓缩"
-        elif calc.initcon == 0:
+        
+        if calc.initcon == 0:
             result1 = calc.initcon_number()*calc.final1*calc.final2/(calc.init1*calc.init2)
             result2 = calc.initvol
             result3 = calc.finalcon
@@ -52,14 +56,24 @@ def dilution():
             result3 = calc.finalcon_number()*(calc.init1*calc.init2)/(calc.final1*calc.final2)
             result4 = calc.finalvol
         elif calc.finalvol == 0:
-            result4 = calc.finalvol_number()
+            result1 = calc.initcon
+            result2 = calc.initvol
+            result3 = calc.finalcon
+            result4 = calc.finalvol_number()*(calc.init1*calc.init2)/(calc.final1*calc.final2)
+        
+        with open('quotes.txt', 'r', encoding='utf-8') as file:
+            quotes = file.readlines()
+        quote_selected = random.choice(quotes).strip()
+        
         #temp_text = f'{calc.init1},{calc.init2},{calc.final1},{calc.final2},{calc.initcon}'
         return render_template('dilution.html', initcon_result = result1, initvol_result=result2, finalcon_result=result3, finalvol_result=result4
                            , initcon_selected_unit=initcon_unit,initvol_selected_unit=initvol_unit,finalcon_selected_unit=finalcon_unit,
-                           finalvol_selected_unit=finalvol_unit)
+                           finalvol_selected_unit=finalvol_unit,
+                           quote=quote_selected)
         #return render_template('result.html', result=result)
     
-    return render_template('dilution.html')
+    return render_template('dilution.html',
+                           quote="Hemogene.  For internal use only ")
     '''
     return render_template('dilution.html', initcon_result = result1, initvol_result=result2, finalcon_result=result3, finalvol_result=result4
                            ,temp = temp_text)
@@ -83,12 +97,19 @@ def solid():
         sovvol = calc.savvol * calc.unit2 / calc.unit3
         solidmass = calc.result_number() * 0.001 * calc.unit1 * calc.unit2 / calc.unit4
 
+        with open('quotes.txt', 'r', encoding='utf-8') as file:
+            quotes = file.readlines()
+        quote_selected = random.choice(quotes).strip()
+
+
         return render_template('solid.html', mwsolid_result=mwsolid,
                                workcon_result=workcon,savvol_result=savvol,sovvol_result=sovvol,solidmass_result=solidmass,
                                workcon_selected_unit=workcon_unit,savvol_selected_unit=savvol_unit,
-                               sovvol_selected_unit=sovvol_unit,solidmass_selected_unit=solidmass_unit)
+                               sovvol_selected_unit=sovvol_unit,solidmass_selected_unit=solidmass_unit,
+                               quote=quote_selected)
     
-    return render_template('solid.html')
+    return render_template('solid.html',
+                           quote="Hemogene.  For internal use only ")
 
 # 质粒用量计算
 @app.route('/plasmid', methods=['GET', 'POST'])
@@ -119,6 +140,11 @@ def plasmid():
         p3_vol = round(total_weight1 * calc.p3_ratio / calc.p3_con, 2)
         p4_vol = round(total_weight1 * calc.p4_ratio / calc.p4_con, 2)
 
+        history_sav_state = request.form.get('history_option')
+        if history_sav_state == 'yes':
+            with open('plasmid_history.txt', 'a', encoding='utf-8') as file:
+                file.write(f'{format_time},{total_weight2},{p1_num},{p2_num},{p3_num},{p4_num},{p1_con},{p2_con},{p3_con},{p4_con},{p1_vol},{p2_vol},{p3_vol},{p4_vol}\n')
+
         return render_template('plasmid.html', total_result=total_weight2,
                                helper_ratio_result=p1_num,transfer_ratio_result=p2_num,envelop_ratio_result=p3_num,plasmid_ratio_result=p4_num,
                                helper_con_result=p1_con,transfer_con_result=p2_con,envelop_con_result=p3_con,plasmid_con_result=p4_con,
@@ -130,7 +156,32 @@ def plasmid():
                            helper_ratio_result='6', 
                            transfer_ratio_result='12', 
                            envelop_ratio_result='5', 
+                           plasmid_ratio_result='0',
+                           plasmid_con_result='1',
                            )
+#质粒用量历史记录读取
+@app.route('/solid_history', methods=['GET'])
+def solid_history():
+    records = []
+    with open('plasmid_history.txt', 'r', encoding='utf-8') as file:
+        for line in file:
+            records.append(line.strip().split(','))
 
+    return render_template('solid_history.html', records=records)
+
+@app.route('/protocols', methods=['GET'])
+def protocols():
+    files = os.listdir(PDF_FOLDER)
+    protocol_files = [f for f in files if f.endswith('.pdf')]
+    return render_template('protocols.html', protocol_files = protocol_files)
+
+@app.route('/pdfs/<filename>')
+def pdf_viewer(filename):
+    return send_from_directory(PDF_FOLDER, filename)
+
+
+@app.route('/lab_protocol', methods=['GET'])
+def lab_protocol():
+    return render_template('lab_protocol.html')
 if __name__ == '__main__':
     app.run(debug=True)

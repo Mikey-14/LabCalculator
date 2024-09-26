@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>稀释计算</title>
+    <button onclick="window.location.href='/';">返回首页</button>
 </head>
 <style>
         body {
@@ -18,7 +19,17 @@
             margin-top: 50px;
             color: #6200ea;
         }
-
+        h3 {
+            text-align:center
+    }
+        .content {
+            display: flex;
+            flex-direction: column;
+            justify-content:center;
+            align-items:center;
+            height:auto;
+            gap:20px
+        }
         form {
             max-width: 400px;
             margin: 0 auto;
@@ -26,6 +37,15 @@
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .text_area {
+            width: 400px;
+            background-color: white;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align:center;
+
         }
 
         label {
@@ -65,9 +85,23 @@
         select {
             background-color: #f8f8f8;
         }
+    footer {
+            position: fixed; /* 固定在页面底部 */
+            bottom: 0; /* 与页面底部对齐 */
+            left: 0;
+            width: 100%; /* 页脚占据页面的整个宽度 */
+            background-color: #f1f1f1; /* 设置背景颜色 */
+            text-align: center; /* 文本居中 */
+            padding: 5px 0; /* 上下留出一些空间 */
+            font-size: 12px; /* 字体大小 */
+            color: #333; /* 字体颜色 */
+            border-top: 1px solid #ccc; /* 添加顶部边框 */
+        }
     </style>
 <body>
     <h2>稀释计算</h2>
+    <h3>请空出需要求的量，每次计算完手动清除那一项的结果</h3>
+<div class="content">
     <form method="POST">
         初始浓度: <input type="text" id="initcon" value="{{ initcon_result }}"  name="initcon">
 	   <!--初始浓度单位选择-->
@@ -110,5 +144,26 @@
         <button type="submit">计算</button>
         <p id="resultText"></p>
     </form>
+    
+    
+    <div class="text_area">
+        <p>常见试剂浓度</p>
+        <h3>PCR相关：</h3>
+        <p>Primestar buffer 5x</p>
+        <p>琼脂糖 0.01g/ml</p>
+        <p>核酸染料gelred 10000x</p>
+        <p>PCR loading buffer 5x</p>
+        <h3>慢病毒相关</h3>
+        <p>浓缩液 3x</p>
+        <p>ELISA Wash buffer 20x</p>
+        <p>待补充</p>
+    </div>
+   <p></p>
+</div>
+
+    <footer>
+        <p>{{quote}}</p>
+    </footer>
+    
 </body>
 </html>

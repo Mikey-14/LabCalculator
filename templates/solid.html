@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>固体溶解计算</title>
+    <button onclick="window.location.href='/';">返回首页</button>
 </head>
 <style>
     h1 {
@@ -37,7 +38,50 @@
     #solidmass{
         border:2px solid white
     }
+    button {
+            width: 100%;
+            background-color: #6200ea;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #3700b3;
+    }
+    .image-gallery {
+    position: absolute;
+    bottom: 50px; /* 距离页面顶部20px */
+    left: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+    .image-gallery img {
+    width: 100%;
+    max-width: 10vw;  /* 每张图片最大宽度为浏览器宽度的30% */
+    max-height: 10vh; /* 每张图片最大高度为浏览器高度的30% */
+    object-fit: cover; /* 保持图片的比例并裁剪多余部分 */
+    margin: 10px; /* 添加间距 */
+}
+    footer {
+            position: fixed; /* 固定在页面底部 */
+            bottom: 0; /* 与页面底部对齐 */
+            left: 0;
+            width: 100%; /* 页脚占据页面的整个宽度 */
+            background-color: #f1f1f1; /* 设置背景颜色 */
+            text-align: center; /* 文本居中 */
+            padding: 5px 0; /* 上下留出一些空间 */
+            font-size: 12px; /* 字体大小 */
+            color: #333; /* 字体颜色 */
+            border-top: 1px solid #ccc; /* 添加顶部边框 */
+        }
     </style>
+    
     
 <body>
     <h1>固体溶解计算</h1>
@@ -74,7 +118,13 @@
         <button type="submit" id=solve>计算</button>
         <br>
     </form>
+        
+        
     </div>
+    <p> </p>
+    <footer>
+        <p>{{quote}}</p>
+    </footer>
     
 </body>
 </html>

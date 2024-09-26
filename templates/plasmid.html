@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>病毒包装体系计算</title>
+    <button onclick="window.location.href='/';">返回首页</button>
     <style>
         .container {
             margin: 10px;
@@ -41,6 +42,59 @@
         }
         #plasmid_volume{
                 border:2px solid white
+        }
+        footer {
+            position: fixed; /* 固定在页面底部 */
+            bottom: 0; /* 与页面底部对齐 */
+            left: 0;
+            width: 100%; /* 页脚占据页面的整个宽度 */
+            background-color: #f1f1f1; /* 设置背景颜色 */
+            text-align: center; /* 文本居中 */
+            padding: 5px 0; /* 上下留出一些空间 */
+            font-size: 12px; /* 字体大小 */
+            color: #333; /* 字体颜色 */
+            border-top: 1px solid #ccc; /* 添加顶部边框 */
+        }
+        li {
+            margin: 15px 0;
+        }
+
+        a {
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 18px;
+            color: #e88501;
+            background-color: #e0e0e0;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        a:hover {
+            background-color: #6200ea;
+            color: white;
+        }
+        #history_label {
+            font-size: 18px; /* 设置字体大小 */
+            font-weight: bold; /* 设置加粗字体 */
+            color: #333; /* 设置字体颜色 */
+            display: inline-block; /* 设置为行内块元素 */
+            margin-top: 20px; /* 设置下方的间距 */
+            width:200px
+        }
+
+        /* 让label和checkbox对齐 */
+        .checkbox-container {
+            display: flex;
+            align-items: center; /* 垂直居中对齐 */
+            margin-bottom: 20px; /* 设置下方的间距 */
+        }
+
+        /* 设置checkbox的间距 */
+        input[type="checkbox"] {
+            margin-right: 10px; /* 设置勾选框和文字之间的间距 */
+            transform: scale(1.2); /* 调整勾选框的大小 */
         }
     </style>
 </head>
@@ -100,9 +154,14 @@
         <button type="button" onclick="add_plasmid_Input()">添加质粒4</button>
         
     </div>-->
+         <label for="history_option" id="history_label" style=>是否保存到历史记录:</label>
+        <input type="checkbox" id="option" name="history_option" value="yes">
             <div class="button">
+        
         <button type="submit">确定</button>
-    </div>
+                </div>
+        <a href='/solid_history'>查看历史记录</a>
+    
 
     
      <script>
@@ -147,6 +206,7 @@
 
     </form>
  </div>
+
     
 
 </body>

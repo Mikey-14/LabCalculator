@@ -6,9 +6,8 @@
 </head>
 <style>
         body {
-            
-            background-image:url('{{url_for('static', filename='picture/index_background.jpg') }}');
             font-family: 'Poppins', sans-serif;
+            background-color: #f0f0f0;
             color: #333;
             margin: 0;
             padding: 0;
@@ -56,7 +55,7 @@
         }
 
         .container {
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: white;
             padding: 40px;
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -76,14 +75,12 @@
     </style>
 <body>
     <div class=container>
-    <h1>选择计算类型</h1>
+    <h1>常用protocol速查</h1>
     <br>
     <ul>
-        <li><a href="/dilution">稀释计算</a></li>
-        <li><a href="/solid">固体溶解计算</a></li>
-        <li><a href="/plasmid">质粒用量计算</a></li>
-        <li><a href='/protocols'>常用protocol</a></li>
-        
+        {% for pdf in protocol_files %}
+            <li><a href="{{ url_for('pdf_viewer', filename=pdf) }}" target="_blank">{{ pdf }}</a></li>
+        {% endfor %}
     </ul>
     </div>
     

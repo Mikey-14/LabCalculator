@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>历史记录</title>
+</head>
+<body>
+    <h1>历史记录</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>时间</th>
+                <th>质粒总用量</th>
+                <th>helper比例</th>
+                <th>transfer比例</th>
+                <th>envelop比例</th>
+                <th>plasmid比例</th>
+                <th>helper浓度</th>
+                <th>transfer浓度</th>
+                <th>envelop浓度</th>
+                <th>plasmid浓度</th>
+                <th>helper体积</th>
+                <th>transfer体积</th>
+                <th>envelop体积</th>
+                <th>plasmid体积</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in records %}
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
+                <td>{{ record[2] }}</td>
+                <td>{{ record[3] }}</td>
+                <td>{{ record[4] }}</td>
+                <td>{{ record[5] }}</td>
+                <td>{{ record[6] }}</td>
+                <td>{{ record[7] }}</td>
+                <td>{{ record[8] }}</td>
+                <td>{{ record[9] }}</td>
+                <td>{{ record[10] }}</td>
+                <td>{{ record[11] }}</td>
+                <td>{{ record[12] }}</td>
+                <td>{{ record[13] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <button onclick="window.location.href='/plasmid';">返回首页</button>
+</body>
+</html>
