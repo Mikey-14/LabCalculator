@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang='en' >
+<head>
+    <meta charset="UTF-8">
+        <title>p24滴度测试数据分析</title>
+    <link rel="stylesheet" type="text/css" href="form1.css">
+    <style>
+                body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        h1 {
+            text-align: center;
+            color: #ffffff;
+            margin-bottom: 30px;
+            padding: 15px;
+            border:2px solid rgb(3, 110, 183);
+            border-radius: 10px;
+            background-color: #446fbd;
+        }
+        h2 {
+            text-align: center;
+            margin-top: 50px;
+            color: #6200ea;
+        }
+        h3 {
+            text-align:center
+        }
+        .container {
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .content {
+            display: flex;
+            flex-direction:row;
+            justify-content:center;
+            align-items:center;
+            height:auto;
+            gap:20px
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .text_area {
+            width: 400px;
+            background-color: white;
+            padding: 5px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align:center;
+
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"], select {
+            
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            background-color: #6200ea;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #3700b3;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        select {
+            background-color: #f8f8f8;
+        }
+        footer {
+            position: fixed; /* 固定在页面底部 */
+            bottom: 0; /* 与页面底部对齐 */
+            left: 0;
+            width: 100%; /* 页脚占据页面的整个宽度 */
+            background-color: #f1f1f1; /* 设置背景颜色 */
+            text-align: center; /* 文本居中 */
+            padding: 5px 0; /* 上下留出一些空间 */
+            font-size: 12px; /* 字体大小 */
+            color: #333; /* 字体颜色 */
+            border-top: 1px solid #ccc; /* 添加顶部边框 */
+        }
+    </style>
+</head>
+<body>
+    <h1>p24滴度测试数据分析</h1>
+    <div class="content">
+        <table>
+        <tr>
+            <td></td>
+            <th>分光光度仪数值</th>
+        </tr>
+        <tr>
+            <th>2000</th>
+            <td>
+            <input type="number" id="con_2000" name="con_2000" value="{{std_2000}}">
+            </td>
+        </tr>
+        <tr>
+            <th>1000</th>
+            <td>
+            <input type="number" id="con_1000" name="con_1000" value="{{std_1000}}">
+            </td>
+        </tr>
+        <tr>
+            <th>500</th>
+            <td>
+            <input type="number" id="con_500" name="con_500" value="{{std_500}}">
+            </td>
+        </tr>
+        <tr>
+            <th>250</th>
+            <td>
+            <input type="number" id="con_250" name="con_250" value="{{std_250}}">
+            </td>
+        </tr>
+        <tr>
+            <th>125</th>
+            <td>
+            <input type="number" id="con_125" name="con_125" value="{{std_125}}">
+            </td>
+        </tr>
+        <tr>
+            <th>62.5</th>
+            <td>
+            <input type="number" id="con_62" name="con_62" value="{{std_62}}">
+            </td>
+        </tr>
+        <tr>
+            <th>31.25</th>
+            <td>
+            <input type="number" id="con_31" name="con_31" value="{{std_31}}">
+            </td>
+        </tr>
+        <tr>
+            <th>0</th>
+            <td>
+            <input type="number" id="con_0" name="con_0" value="{{std_0}}">
+            </td>
+        </tr>
+        </table>
+        <img src="{{url_for('static', filename='figs/new_plot.png') }}">
+    </div>
+    <br>
+    <button type='submit' id='solve'>绘制标准曲线</button>
+
+</body>
+<footer>
+    <p>{{quote}}</p>
+</footer>
+</html>

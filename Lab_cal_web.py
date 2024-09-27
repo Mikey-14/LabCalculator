@@ -9,6 +9,8 @@ from datetime import datetime
 from flask import Flask, render_template, request, send_from_directory
 from calculator import concentration_cal, solid_cal, plasmid_cal
 import os
+import numpy as np
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 current_time = datetime.now()
@@ -183,5 +185,30 @@ def pdf_viewer(filename):
 @app.route('/lab_protocol', methods=['GET'])
 def lab_protocol():
     return render_template('lab_protocol.html')
+
+@app.route('/p24', methods = ['GET', 'POST'])
+def p24_cal():
+    if request.method == 'POST':
+        std_2000 = request.form.get('con_2000')
+        std_1000 = request.form.get('con_1000')
+        std_500 = request.form.get('con_500')
+        std_250 = request.form.get('con_250')
+        std_125 = request.form.get('con_125')
+        std_62 = request.form.get('con_62')
+        std_31 = request.form.get('con_31')
+        std_0 = request.form.get('con_0')
+        x = [std_0, std_31, std_62, std_125, std_250, std_500, std_1000, std_2000]
+        y = [0, 31.25, 62.5, 125, 250, 500, 1000, 2000]
+        x_axies = np.array(x)
+        y_axies = np.array(y)
+        func_std = np.polyfit(x_axies, y_axies, 1)
+        line_std = np.poly1d(func_std)
+        yvals = line_std(x_axies)
+        plot1 = plt.plot(x_axies, yvals, 'r')
+        plot2 = plt.scatter(x,y)
+        plt.title(f'y = {line_std}')
+        plt.savefig(f'static/figs/new_plot.png')
+    return render_template('p24.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
