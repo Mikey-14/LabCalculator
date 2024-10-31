@@ -111,6 +111,22 @@
             color: #333; /* 字体颜色 */
             border-top: 1px solid #ccc; /* 添加顶部边框 */
         }
+            .image-gallery {
+    position:relative;
+    top: 20px;
+    bottom: 50px; /* 距离页面底部20px */
+    left: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+}
+    .image-gallery img {
+    width: 100%;
+    max-width: 25vw;  /* 每张图片最大宽度为浏览器宽度的30% */
+    max-height: 25vh; /* 每张图片最大高度为浏览器高度的30% */
+    object-fit: cover; /* 保持图片的比例并裁剪多余部分 */
+    margin: 10px; /* 添加间距 */
     </style>
 </head>
 <body>
@@ -170,11 +186,13 @@
             </td>
         </tr>
         </table>
+        <div class=image-gallery>
         <img src="{{url_for('static', filename='figs/new_plot.png') }}">
+        </div>
     </div>
     <br>
     <button type='submit' id='solve'>绘制标准曲线</button>
-
+    
 </body>
 <footer>
     <p>{{quote}}</p>

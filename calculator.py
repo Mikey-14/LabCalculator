@@ -119,7 +119,7 @@ class plasmid_cal:
         self.p2_con = float(y) if y else 0
         self.p3_con = float(z) if z else 0
         self.p4_con = float(p) if p else 1
-    
+
 
 ''' 
     def get_initcon_unit(self):

@@ -6,12 +6,17 @@ Created on Thu Sep 12 12:41:26 2024
 """
 
 import tkinter as tk
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from tkinter import ttk
 from tkinter import messagebox
 from calculator import concentration_cal
 from calculator import solid_cal
 from calculator import plasmid_cal
 main = tk.Tk()
+main.geometry("870x800")
 def on_closing():
     main.quit()
     main.destroy()
@@ -78,10 +83,41 @@ def func3_custom():
     pldcon4_ratio.grid(row=15,column=8)
     pldvol4_title.grid(row=16,column=7)
     pldvol4_ratio.grid(row=16,column=8)
+def func4_std():
+    blank = float(blank_num.get())
+    std1 = float(std1_num.get()) - blank
+    std2 = float(std2_num.get()) - blank
+    std3 = float(std3_num.get()) - blank
+    std4 = float(std4_num.get()) - blank
+    std5 = float(std5_num.get()) - blank
+    x = [std1, std2, std3, std4, std5, 0]
+    y = [2000, 1000, 500, 250, 125, 0]
+    x_axies = np.array(x)
+    y_axies = np.array(y)
+    func = np.polyfit(x_axies, y_axies, 1)
+    global line
+    line = np.poly1d(func)
+    y_appx = line(x_axies)
+    plot1.plot(x_axies, y_appx,'r')
+    plot1.scatter(x,y,s=10)
+    plot1.set_title(f'y={line}')
+    canvas.draw()
+    canvas.get_tk_widget().grid(row = 19,rowspan=4, column=2,columnspan=3)
+def func4_cal():
+    for i in range(1,8):
+        sap_num_str = globals()[f'sap_entry_{i}'].get()
+        sap_num = float(sap_num_str) if sap_num_str else 0
+        mult_time_str = globals()[f'mult_times_{i}'].get()
+        mult_time = float(mult_time_str) if mult_time_str else 1
+        sap_result = line(sap_num)*mult_time*1.25*10**4
+        sap_result_sci = format(sap_result,".2e")
+        globals()[f'result_{i}'].config(text=f'{sap_result_sci}',bd=1,relief='solid')
+
+
     
 
-title = tk.Label(main, text = '实验室综合计算器')
-title.grid(row=0,column=0,columnspan=4)
+title = tk.Label(main, text = '实验室综合计算器', font=('微软雅黑',15,'bold'))
+title.grid(row=0,column=0,columnspan=9)
 
 '''
 以下是功能1：
@@ -311,6 +347,86 @@ button3 = tk.Button(main,text = '确定',
                     bg = 'orange',
                     command = func3_show_result)
 button3.grid(row = 14, column = 8, rowspan = 3)
+
+#分割线3
+separator3 = ttk.Separator(main, orient='horizontal')
+separator3.grid(row=17,column=0,columnspan=10,sticky="ew",pady=10)
+'''
+以下是功能4
+## p24病毒滴度计算
+- 给出酶标仪测量结果、标准曲线方程参数，输出测定的病毒滴度 
+'''
+#功能4
+func4_title = tk.Label(main,text='病毒滴度计算')
+func4_title.grid(row=18,column=0)
+func4_2_title = tk.Label(main,text='(请先进行标准曲线绘制)')
+func4_2_title.grid(row=18,column=1)
+#标准曲线绘制
+std1_label = tk.Label(main,text='std2000:(pg/mL)')
+std1_num = tk.Entry(main,width=8)
+std2_label = tk.Label(main,text='std1000:')
+std2_num = tk.Entry(main,width=8)
+std3_label = tk.Label(main,text='std500:')
+std3_num = tk.Entry(main,width=8)
+std4_label = tk.Label(main,text='std250:')
+std4_num = tk.Entry(main,width=8)
+std5_label = tk.Label(main,text='std125:')
+std5_num = tk.Entry(main,width=8)
+blank_label = tk.Label(main,text='Blank:')
+blank_num = tk.Entry(main,width=8)
+std1_label.grid(row=19,column=0)
+std2_label.grid(row=20,column=0)
+std3_label.grid(row=21,column=0)
+std4_label.grid(row=22,column=0)
+std5_label.grid(row=23,column=0)
+blank_label.grid(row=24,column=0)
+std1_num.grid(row=19,column=1)
+std2_num.grid(row=20,column=1)
+std3_num.grid(row=21,column=1)
+std4_num.grid(row=22,column=1)
+std5_num.grid(row=23,column=1)
+blank_num.grid(row=24,column=1)
+fig1 = Figure(figsize=(4, 3), dpi=75)
+plot1 = fig1.add_subplot(111)
+
+canvas = FigureCanvasTkAgg(fig1, master=main)
+canvas.get_tk_widget().grid(row = 19,rowspan=4, column=2,columnspan=3)
+
+button4 = tk.Button(main,text = '绘制标曲',
+                    width = 7,
+                    bg = 'orange',
+                    command = func4_std)
+button4.grid(row = 25, column = 0, columnspan=2)
+
+#实验数据输入
+sap_label_dict = {}
+sap_entry_dict = {}
+mult_times_dict = {}
+for i in range(1,8):
+    globals()[f'sap_label_{i}'] = tk.Label(main,text = f'样品{i}',pady=15)
+    globals()[f'sap_label_{i}'].grid(row = 18+i, column =5)
+    globals()[f'sap_entry_{i}'] = tk.Entry(main, width = 8)
+    globals()[f'sap_entry_{i}'].grid(row = 18+i, column = 6)
+    globals()[f'mult_times_{i}'] = tk.Entry(main,width = 8)
+    globals()[f'mult_times_{i}'].grid(row = 18+i, column = 7)
+    globals()[f'result_{i}'] = tk.Label(main,text = '')
+    globals()[f'result_{i}'].grid(row = 18+i, column = 8)
+
+
+
+index_title = tk.Label(main,text='酶标仪数值')
+mult_times_title = tk.Label(main,text = '稀释倍数')
+index_result_title= tk.Label(main,text = '病毒浓度(LP/mL)')
+index_title.grid(row=18,column=6)
+mult_times_title.grid(row=18,column=7)
+index_result_title.grid(row=18,column=8)
+#计算按钮
+button5 = tk.Button(main,text = '计算滴度',
+                    width = 7,
+                    bg = 'orange',
+                    command=func4_cal
+                    )
+button5.grid(row = 25, column =  4)
 
 main.protocol("WM_DELETE_WINDOW", on_closing)
 main.mainloop()
