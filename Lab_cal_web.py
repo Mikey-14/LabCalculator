@@ -6,17 +6,23 @@ Created on Mon Sep 16 11:09:36 2024
 """
 import random
 from datetime import datetime
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory, jsonify
 from calculator import concentration_cal, solid_cal, plasmid_cal
+import json
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import DeclarativeBase
+
 
 app = Flask(__name__)
 current_time = datetime.now()
 format_time = current_time.strftime("%Y-%m-%d--%H:%M:%S")
 PDF_FOLDER = os.path.join(app.root_path, 'static/lab_protocols')
- 
+DATA_FILE = 'plasmid_data.json'
+
+
 # 主页面
 @app.route('/')
 def index():
@@ -35,7 +41,7 @@ def dilution():
         initcon_unit = request.form.get('initcon_unit','mol/L')
         initvol_unit = request.form.get('initvol_unit','mL')
         finalcon_unit = request.form.get('finalcon_unit','mol/L')
-        finalvol_unit = request.form.get('finalvol_unit','ml')
+        finalvol_unit = request.form.get('finalvol_unit','mL')
         
         calc = concentration_cal(initcon, initvol, finalcon, finalvol)
         calc.unit(initcon_unit, initvol_unit, finalcon_unit, finalvol_unit)
@@ -171,6 +177,21 @@ def solid_history():
 
     return render_template('solid_history.html', records=records)
 
+#辅助函数：读写 JSON 数据
+def load_plasmids():
+    if not os.path.exists(DATA_FILE):
+        return []
+    with open(DATA_FILE, 'r', encoding='utf-8') as f:
+        try:
+            return json.load(f)
+        except json.JSONDecodeError:
+            return []
+
+def save_plasmids(data):
+    with open(DATA_FILE, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
+
+#常用protocol库索引
 @app.route('/protocols', methods=['GET'])
 def protocols():
     files = os.listdir(PDF_FOLDER)
@@ -186,17 +207,18 @@ def pdf_viewer(filename):
 def lab_protocol():
     return render_template('lab_protocol.html')
 
+#滴度计算(暂未实现)
 @app.route('/p24', methods = ['GET', 'POST'])
 def p24_cal():
     if request.method == 'POST':
-        std_2000 = request.form.get('con_2000')
-        std_1000 = request.form.get('con_1000')
-        std_500 = request.form.get('con_500')
-        std_250 = request.form.get('con_250')
-        std_125 = request.form.get('con_125')
-        std_62 = request.form.get('con_62')
-        std_31 = request.form.get('con_31')
-        std_0 = request.form.get('con_0')
+        std_2000 = float(request.form.get('con_2000'))
+        std_1000 = float(request.form.get('con_1000'))
+        std_500 = float(request.form.get('con_500'))
+        std_250 = float(request.form.get('con_250'))
+        std_125 = float(request.form.get('con_125'))
+        std_62 = float(request.form.get('con_62'))
+        std_31 = float(request.form.get('con_31'))
+        std_0 = float(request.form.get('con_0'))
         x = [std_0, std_31, std_62, std_125, std_250, std_500, std_1000, std_2000]
         y = [0, 31.25, 62.5, 125, 250, 500, 1000, 2000]
         x_axies = np.array(x)
@@ -210,5 +232,98 @@ def p24_cal():
         plt.savefig(f'static/figs/new_plot.png')
     return render_template('p24.html')
 
+#质粒库索引
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///plasmid_inventory.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
+
+class PlasmidInventory(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64), nullable=False)               # 质粒名称
+    prep_date = db.Column(db.String(20), nullable=False)          # 制备时间（字符串格式）
+    quantity = db.Column(db.String(32), nullable=False)           # 库存量（可带单位）
+
+    def __repr__(self):
+        return f'<Plasmid {self.name}>'
+
+#质粒库功能
+# ---新增功能：管理员登录---
+ALLOWED_USERS_FILE = 'allowed_users.txt'
+
+def is_user_allowed(username):
+    if not username:
+        return False
+    if not os.path.exists(ALLOWED_USERS_FILE):
+        return False # 如果文件不存在，谁都不能操作，安全起见
+    
+    with open(ALLOWED_USERS_FILE, 'r', encoding='utf-8') as f:
+        # 读取所有行，去空格，转大写
+        allowed = [line.strip().upper() for line in f.readlines()]
+        return username.strip().upper() in allowed
+# --- 新增功能：质粒管理页面路由 ---
+@app.route('/plasmid_manager')
+def plasmid_manager():
+    return render_template('plasmid_manager.html')
+
+# --- 登录验证接口
+@app.route('/api/login', methods=['POST'])
+def login_check():
+    username = request.json.get('username')
+    if is_user_allowed(username):
+        return jsonify({'status': 'success', 'message': '登录成功'})
+    else:
+        return jsonify({'status': 'fail', 'message': '无权限或名字不在名单中'}), 403
+    
+# --- 新增 API：处理数据的增删改查 ---
+@app.route('/api/plasmids', methods=['GET', 'POST'])
+def handle_plasmids():
+    data = load_plasmids()
+    
+    if request.method == 'GET':
+        # 获取所有数据
+        return jsonify(data)
+    
+    if request.method == 'POST':
+        #检查是否是正确用户
+        current_user = request.headers.get('X-User-ID')
+        if not is_user_allowed(current_user):
+            return jsonify({'error': 'Unauthorized'}), 401 # 401代表未授权
+        # 添加新质粒
+        new_item = request.json
+        # 简单的后端校验
+        if not new_item.get('name'):
+            return jsonify({'error': 'Name is required'}), 400
+            
+        # 生成唯一 ID (简单的处理方式：找到当前最大的ID + 1，或者用时间戳)
+        # 这里为了配合前端逻辑，我们直接信任前端发来的时间戳ID，或者在这里重新生成
+        # 为简单起见，直接追加
+        data.append(new_item)
+        save_plasmids(data)
+        return jsonify({'message': 'Saved', 'data': new_item}), 201
+
+@app.route('/api/plasmids/<int:p_id>', methods=['DELETE', 'PUT'])
+def handle_single_plasmid(p_id):
+    #检查用户权限
+    current_user = request.headers.get('X-User-ID')
+    if not is_user_allowed(current_user):
+        return jsonify({'error': 'Unauthorized'}), 401
+    
+    data = load_plasmids()
+    
+    if request.method == 'DELETE':
+        # 删除指定 ID
+        data = [p for p in data if p['id'] != p_id]
+        save_plasmids(data)
+        return jsonify({'message': 'Deleted'})
+    
+    if request.method == 'PUT':
+        # 更新状态 (例如：是否需要提取)
+        update_data = request.json
+        for p in data:
+            if p['id'] == p_id:
+                p['extract'] = update_data.get('extract', p['extract'])
+        save_plasmids(data)
+        return jsonify({'message': 'Updated'})
+    
 if __name__ == '__main__':
     app.run(debug=True)

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>实验室综合计算器</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 </head>
 <style>
         body {
@@ -28,6 +29,7 @@
             border-radius: 10px;
             background-color: #446fbd;
         }
+        h3 {color: white};
 
         ul {
             list-style-type: none;
@@ -73,6 +75,10 @@
             margin-top: auto;
             width: 100%;
             }
+    .ICP{
+        all: unset;
+        cursor: pointer
+    }
     </style>
 <body>
     <br>
@@ -82,16 +88,18 @@
     <h1>选择计算类型</h1>
         <h3>神秘代码：82086</h3>
     <br>
-    <ul>
+    <ul style="list-style-type: none; padding: 0; margin: 0;">
         <li><a href="/dilution">稀释计算</a></li>
         <li><a href="/solid">固体溶解计算</a></li>
         <li><a href="/plasmid">质粒用量计算</a></li>
         <li><a href='/protocols'>常用protocol</a></li>
-        
+        <li><a href='/p24'>P24计算</a></li>
+        <li><a href='plasmid_manager'>质粒数据库</a></li>
     </ul>
     </div>
     <footer>
-    技术支持：MikeYin&nbsp;&nbsp;联系方式：yinzehua@genomics.cn&nbsp;&nbsp;湘ICP备2024085601
+    技术支持：MikeYin&nbsp;&nbsp;联系方式：yinzehua@genomics.cn&nbsp;&nbsp;
+        <a class="ICP" href='https://beian.miit.gov.cn/#/Integrated/index' >湘ICP备2024085601号-1</a>
     </footer>
     
 </body>

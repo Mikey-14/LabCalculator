@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1765274674652,
+        "name": "TarV-aCD34",
+        "conc": "600",
+        "vol": "1.5",
+        "loc": "G4",
+        "extract": true
+    },
+    {
+        "id": 1765274859014,
+        "name": "BCMA",
+        "conc": "1400",
+        "vol": "1.7",
+        "loc": "G5",
+        "extract": false
+    }
+]
